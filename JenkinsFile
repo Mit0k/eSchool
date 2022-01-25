@@ -42,6 +42,7 @@ pipeline{
             steps{
                 script{
                     sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $SSH_HOST:/usr/local/share/eschool/"
+                    sh "ssh $SSH_HOST ‘sudo systemctl restart eschool.service‘"
                 }
             }
         }
