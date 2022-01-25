@@ -37,12 +37,11 @@ pipeline{
         stage('Deploy'){
         environment
             {
-                USER = "transfer"
-                HOST = "eschool.westus.cloudapp.azure.com"
+                SSH_HOST = credentials('ssh_host')
             }
             steps{
                 script{
-                    sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $USER@$HOST:/usr/local/share/eschool/"
+                    sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $SSH_HOST:/usr/local/share/eschool/"
                 }
             }
         }
