@@ -1,14 +1,48 @@
 pipeline{
     agent { label "Linux" }
     stages{
+     stage('compile'){
+                steps{
+                    withMaven{
+                        sh 'mvn clean compile'
+                    }
+                }
+            }
+            stage('test'){
+                steps{
+                    withMaven{
+                        sh 'mvn test -Dtest=!academy.softserve.eschool.*.*IntegrationTest'
+                    }
+                }
+            }
+            stage('SonarQube analysis') {
+                steps {
+                    withSonarQubeEnv('Sonar8') {
+                        sh "mvn sonar:sonar"
+                    }
+                }
+            }
+            stage("Quality gate") {
+                steps {
+                    waitForQualityGate abortPipeline: true
+                    }
+            }
+            stage("Build"){
+                steps{
+                    withMaven{
+                        sh 'mvn package -Dmaven.test.skip=true'
+                    }
+                }
+            }
         stage('Deploy'){
         environment
             {
-                SSH_HOST = credentials('ssh_host')
+                USER = "transfer"
+                HOST = "eschool.westus.cloudapp.azure.com"
             }
             steps{
                 script{
-                    sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $SSH_HOST:/usr/local/share/eschool/"
+                    sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $USER@$HOST:/usr/local/share/eschool/"
                 }
             }
         }
