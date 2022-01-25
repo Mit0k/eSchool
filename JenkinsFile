@@ -1,39 +1,7 @@
 pipeline{
     agent { label "Linux" }
     stages{
-     stage('compile'){
-                steps{
-                    withMaven{
-                        sh 'mvn clean compile'
-                    }
-                }
-            }
-            stage('test'){
-                steps{
-                    withMaven{
-                        sh 'mvn test -Dtest=!academy.softserve.eschool.*.*IntegrationTest'
-                    }
-                }
-            }
-            stage('SonarQube analysis') {
-                steps {
-                    withSonarQubeEnv('Sonar8') {
-                        sh "mvn sonar:sonar"
-                    }
-                }
-            }
-            stage("Quality gate") {
-                steps {
-                    waitForQualityGate abortPipeline: true
-                    }
-            }
-            stage("Build"){
-                steps{
-                    withMaven{
-                        sh 'mvn package -Dmaven.test.skip=true'
-                    }
-                }
-            }
+
         stage('Deploy'){
         environment
             {
