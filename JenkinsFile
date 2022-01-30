@@ -34,18 +34,6 @@ pipeline{
                     }
                 }
             }
-        stage('Deploy'){
-        environment
-            {
-                USER = "transfer"
-                HOST = "eschool.westus.cloudapp.azure.com"
-            }
-            steps{
-                script{
-                    sh "scp -o StrictHostKeyChecking=no -i /home/azureuser/key.pem -v target/eschool.jar $USER@$HOST:/usr/local/share/eschool/"
-                }
-            }
-        }
     }
 }
  
