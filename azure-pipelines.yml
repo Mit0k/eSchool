@@ -23,5 +23,5 @@ steps:
   
 - task: PublishPipelineArtifact@1
   inputs:
-      targetPath: '$(Pipeline.Workspace)'
-      publishLocation: 'pipeline'
+    targetPath: $(System.DefaultWorkingDirectory)/target/*
+    artifactName: eschool.jar
