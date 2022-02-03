@@ -37,7 +37,20 @@ steps:
     SlotName: 'production'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
-    AppSettings: 'DATASOURCE_PASSWORD $env:MAPPED_ENV_DB_PASS'
   env:
     MAPPED_ENV_DB_PASS: $(DatabasePassword)
+
+- task: AzureAppServiceSettings@1
+  inputs:
+    azureSubscription: 'Azure1'
+    appName: 'app-armwebapp'
+    resourceGroupName: 'rg-webapp-pipeline-centralus'
+    appSettings: |
+      [
+         {
+          "name": "DATASOURCE_PASSWORD",
+          "value": "$env:MAPPED_ENV_DB_PASS",
+          "slotSetting": false
+         }
+      ]
 
