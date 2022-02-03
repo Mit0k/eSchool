@@ -20,6 +20,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+    options: '-DskipTests=true'
   
 - task: PublishPipelineArtifact@1
   inputs:
