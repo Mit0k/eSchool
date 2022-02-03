@@ -31,6 +31,9 @@ steps:
     azureSubscription: 'Azure1'
     appType: 'webAppLinux'
     WebAppName: 'app-armwebapp'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'rg-webapp-pipeline-centralus'
+    SlotName: 'production'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
     AppSettings: 'DATASOURCE_PASSWORD $env:MAPPED_ENV_DB_PASS'
