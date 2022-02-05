@@ -1,7 +1,6 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+variables:
+  passChanged: false
+
 
 trigger:
 - develop
@@ -41,6 +40,7 @@ steps:
     MAPPED_ENV_DB_PASS: $(DatabasePassword)
 
 - task: AzureAppServiceSettings@1
+  condition: eq(variables.passChanged, 'true'))
   inputs:
     azureSubscription: 'Azure1'
     appName: 'app-armwebapp'
@@ -49,7 +49,7 @@ steps:
       [
          {
           "name": "DATASOURCE_PASSWORD",
-          "value": "$env:MAPPED_ENV_DB_PASS",
+          "value": $env:MAPPED_ENV_DB_PASS,
           "slotSetting": false
          }
       ]
