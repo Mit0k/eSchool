@@ -1,3 +1,4 @@
+#TODO: Update password only if password changed [05.02 17:25]
 variables:
   passChanged: false
 
@@ -30,10 +31,10 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure1'
     appType: 'webAppLinux'
-    WebAppName: 'app-armwebapp'
+    WebAppName: $(WebAppName)
     deployToSlotOrASE: true
-    ResourceGroupName: 'rg-webapp-pipeline-centralus'
-    SlotName: 'production'
+    ResourceGroupName: $(ResourceGroupName)
+    SlotName: $(SlotName)
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
   env:
@@ -43,8 +44,8 @@ steps:
   condition: eq(variables.passChanged, 'true')
   inputs:
     azureSubscription: 'Azure1'
-    appName: 'app-armwebapp'
-    resourceGroupName: 'rg-webapp-pipeline-centralus'
+    appName: $(WebAppName)
+    resourceGroupName: $(ResourceGroupName)
     appSettings: |
       [
          {
