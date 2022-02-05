@@ -40,7 +40,7 @@ steps:
     MAPPED_ENV_DB_PASS: $(DatabasePassword)
 
 - task: AzureAppServiceSettings@1
-  condition: eq(variables.passChanged, 'true'))
+  condition: eq(variables.passChanged, 'true')
   inputs:
     azureSubscription: 'Azure1'
     appName: 'app-armwebapp'
