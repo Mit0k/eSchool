@@ -21,7 +21,7 @@ steps:
       sonar.projectKey=DevOps_Internship_DevOps_Internship
 - task: JavaToolInstaller@0
   inputs:
-    versionSpec: '11'
+    versionSpec: '8'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 - task: Maven@3
