@@ -29,7 +29,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure1'
+    azureSubscription: 'Azure2'
     appType: 'webAppLinux'
     WebAppName: $(WebAppName)
     deployToSlotOrASE: true
@@ -43,7 +43,7 @@ steps:
 - task: AzureAppServiceSettings@1
   condition: eq(variables.passChanged, 'true')
   inputs:
-    azureSubscription: 'Azure1'
+    azureSubscription: 'Azure2'
     appName: $(WebAppName)
     resourceGroupName: $(ResourceGroupName)
     appSettings: |
