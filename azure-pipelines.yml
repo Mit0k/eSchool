@@ -21,9 +21,21 @@ steps:
       sonar.projectKey=DevOps_Internship_DevOps_Internship
 - task: JavaToolInstaller@0
   inputs:
-    versionSpec: '8'
+    versionSpec: '11'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: true
+    sqMavenPluginVersionChoice: 'latest'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
