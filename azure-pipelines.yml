@@ -14,20 +14,21 @@ steps:
   inputs:
     SonarQube: 'Sonar'
     scannerMode: 'Other'
-    extraProperties: |
-      # Additional properties that will be passed to the scanner,
-      # Put one key=value per line, example:
-      # sonar.exclusions=**/*.bin
-      sonar.projectKey=DevOps_Internship_DevOps_Internship
-- task: JavaToolInstaller@0
+    extraProperties: sonar.projectKey=DevOps_Internship_DevOps_Internship
+    
+- task: Maven@3
   inputs:
-    versionSpec: '11'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
+    mavenPomFile: 'pom.xml'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    mavenOptions: '-Xmx3072m'
 
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
+    goals: 'sonar:sonar'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
@@ -37,7 +38,7 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: true
-
+    sqMavenPluginVersionChoice: 'latest'
 - task: SonarQubePublish@5
   inputs:
     pollingTimeoutSec: '300'
