@@ -52,27 +52,12 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure2'
     appType: 'webAppLinux'
-    WebAppName: $(WebAppName)
+    WebAppName: '$(WebAppName)'
     deployToSlotOrASE: true
-    ResourceGroupName: $(ResourceGroupName)
+    ResourceGroupName: '$(ResourceGroupName)'
     SlotName: 'production'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
+    AppSettings: 'DATASOURCE_PASSWORD $env:MAPPED_ENV_DB_PASS'
   env:
     MAPPED_ENV_DB_PASS: $(DatabasePassword)
-
-- task: AzureAppServiceSettings@1
-  condition: eq(variables.passChanged, 'true')
-  inputs:
-    azureSubscription: 'Azure2'
-    appName: $(WebAppName)
-    resourceGroupName: $(ResourceGroupName)
-    appSettings: |
-      [
-         {
-          "name": "DATASOURCE_PASSWORD",
-          "value": $env:MAPPED_ENV_DB_PASS,
-          "slotSetting": false
-         }
-      ]
-
