@@ -1,6 +1,8 @@
 variables:
-  passChanged: true
-  group: VG-armtest
+- group: VG-armtest
+- name: passChanged
+  value: true
+
 
 
 trigger:
@@ -10,9 +12,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
-- script: echo $(ResourceGroupName)
-- script: echo $(WebAppName) 
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'Sonar'
