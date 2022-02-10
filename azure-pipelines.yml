@@ -58,6 +58,6 @@ steps:
     SlotName: 'production'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
-    AppSettings: 'DATASOURCE_PASSWORD $env:MAPPED_ENV_DB_PASS'
+    AppSettings: 'DATASOURCE_PASSWORD $MAPPED_ENV_DB_PASS'
   env:
     MAPPED_ENV_DB_PASS: $(DatabasePassword)
