@@ -1,4 +1,3 @@
-#TODO: Update password only if password changed [05.02 17:25]
 variables:
   passChanged: true
   group: VG-armtest
@@ -54,7 +53,7 @@ steps:
     WebAppName: $(WebAppName)
     deployToSlotOrASE: true
     ResourceGroupName: $(ResourceGroupName)
-    SlotName: $(SlotName)
+    SlotName: 'production'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
   env:
