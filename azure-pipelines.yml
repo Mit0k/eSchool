@@ -1,6 +1,7 @@
 #TODO: Update password only if password changed [05.02 17:25]
 variables:
   passChanged: false
+  group: VG-armtest
 
 
 trigger:
@@ -9,69 +10,80 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: SonarQubePrepare@5
-  inputs:
-    SonarQube: 'Sonar'
-    scannerMode: 'Other'
-    extraProperties: sonar.projectKey=DevOps_Internship_DevOps_Internship
+stages:
+  - stage: SonarQube
+    jobs:
+    - job: SonarQube_Analysis
+      steps:
+        - task: SonarQubePrepare@5
+          inputs:
+            SonarQube: 'Sonar'
+            scannerMode: 'Other'
+            extraProperties: sonar.projectKey=DevOps_Internship_DevOps_Internship
     
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    mavenOptions: '-Xmx3072m'
-
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'sonar:sonar'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    mavenVersionOption: 'Default'
-    mavenOptions: '-Xmx3072m'
-    options: '-Dmaven.test.skip'
-    sonarQubeRunAnalysis: true
-    sqMavenPluginVersionChoice: 'latest'
+        - task: Maven@3
+          inputs:
+            mavenPomFile: 'pom.xml'
+            goals: 'sonar:sonar'
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+            mavenVersionOption: 'Default'
+            mavenOptions: '-Xmx3072m'
+            options: '-Dmaven.test.skip'
+            sonarQubeRunAnalysis: true
+            sqMavenPluginVersionChoice: 'latest'
     
-- task: SonarQubePublish@5
-  inputs:
-    pollingTimeoutSec: '300'
-    
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
+        - task: SonarQubePublish@5
+          inputs:
+            pollingTimeoutSec: '300'
+  - stage: Maven
+    jobs:
+    - job: Build_Artifact
+      steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'pom.xml'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
+          mavenOptions: '-Xmx3072m'
 
-- task: AzureRmWebAppDeployment@4
-  condition: eq(variables.passChanged, 'true')
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure2'
-    appType: 'webAppLinux'
-    WebAppName: $(WebAppName)
-    deployToSlotOrASE: true
-    ResourceGroupName: $(ResourceGroupName)
-    SlotName: $(SlotName)
-    packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
-    RuntimeStack: 'JAVA|8-jre8'
-  env:
-    MAPPED_ENV_DB_PASS: $(DatabasePassword)
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
 
-- task: AzureAppServiceSettings@1
-  condition: eq(variables.passChanged, 'true')
-  inputs:
-    azureSubscription: 'Azure2'
-    appName: $(WebAppName)
-    resourceGroupName: $(ResourceGroupName)
-    appSettings: |
-      [
-         {
-          "name": "DATASOURCE_PASSWORD",
-          "value": $env:MAPPED_ENV_DB_PASS,
-          "slotSetting": false
-         }
-      ]
+  - stage: Deploy
+    jobs:
+    - job: DeployToWebApps
+      steps:
+      - task: AzureRmWebAppDeployment@4
+        condition: eq(variables.passChanged, 'true')
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'Azure2'
+          appType: 'webAppLinux'
+          WebAppName: $(WebAppName)
+          deployToSlotOrASE: true
+          ResourceGroupName: $(ResourceGroupName)
+          SlotName: $(SlotName)
+          packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
+          RuntimeStack: 'JAVA|8-jre8'
+        env:
+          MAPPED_ENV_DB_PASS: $(DatabasePassword)
+
+      - task: AzureAppServiceSettings@1
+        condition: eq(variables.passChanged, 'true')
+        inputs:
+          azureSubscription: 'Azure2'
+          appName: $(WebAppName)
+          resourceGroupName: $(ResourceGroupName)
+          appSettings: |
+            [
+               {
+                "name": "DATASOURCE_PASSWORD",
+                "value": $env:MAPPED_ENV_DB_PASS,
+                "slotSetting": false
+               }
+            ]
 
