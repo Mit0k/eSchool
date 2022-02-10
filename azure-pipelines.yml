@@ -29,17 +29,14 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'sonar:sonar'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
     mavenOptions: '-Xmx3072m'
     options: '-Dmaven.test.skip'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
     sonarQubeRunAnalysis: true
     sqMavenPluginVersionChoice: 'latest'
+    
 - task: SonarQubePublish@5
   inputs:
     pollingTimeoutSec: '300'
