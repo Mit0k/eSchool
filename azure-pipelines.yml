@@ -11,6 +11,23 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+  - stage: Maven
+    jobs:
+    - job: Build_Artifact
+      steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'pom.xml'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
+          mavenOptions: '-Xmx3072m'
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
+
   - stage: SonarQube
     jobs:
     - job: SonarQube_Analysis
@@ -36,22 +53,6 @@ stages:
         - task: SonarQubePublish@5
           inputs:
             pollingTimeoutSec: '300'
-  - stage: Maven
-    jobs:
-    - job: Build_Artifact
-      steps:
-      - task: Maven@3
-        inputs:
-          mavenPomFile: 'pom.xml'
-          publishJUnitResults: true
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.8'
-          mavenOptions: '-Xmx3072m'
-
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
 
   - stage: Deploy
     jobs:
