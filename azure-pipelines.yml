@@ -11,9 +11,9 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: Maven
+  - stage: Compile
     jobs:
-    - job: Build_Artifact
+    - job: CompileJava
       steps:
       - task: Maven@3
         inputs:
