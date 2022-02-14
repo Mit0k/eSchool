@@ -43,7 +43,7 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
-    artifact: 'app.jar'
+    artifact: 'app'
     publishLocation: 'pipeline'
 
 - task: AzureRmWebAppDeployment@4
@@ -55,7 +55,7 @@ steps:
     deployToSlotOrASE: true
     ResourceGroupName: '$(ResourceGroupName)'
     SlotName: 'production'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/app.jar'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/target/app.jar'
     RuntimeStack: 'JAVA|8-jre8'
     AppSettings: '-DATASOURCE_PASSWORD $(DatabasePassword)'
 
