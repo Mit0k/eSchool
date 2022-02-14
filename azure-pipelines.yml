@@ -1,8 +1,5 @@
 variables:
 - group: VG-pipe
-- name: passChanged
-  value: true
-
 
 
 trigger:
@@ -56,7 +53,7 @@ steps:
     deployToSlotOrASE: true
     ResourceGroupName: '$(ResourceGroupName)'
     SlotName: 'production'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/app.jar'
     RuntimeStack: 'JAVA|8-jre8'
     AppSettings: '-DATASOURCE_PASSWORD $(DatabasePassword)'
 
