@@ -42,7 +42,9 @@ steps:
     
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
+    targetPath: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
+    artifact: 'app.jar'
+    publishLocation: 'pipeline'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
