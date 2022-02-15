@@ -12,7 +12,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- bash: echo $WebAppName
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'Sonar'
