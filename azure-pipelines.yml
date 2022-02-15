@@ -1,6 +1,7 @@
 variables:
-- group: VG-demotwo
-
+#- group: VG-demotwo
+ -WebAppName: app-fdbtako-eastus
+ -ResourceGroupName: rg-fdb-eastus
 
 trigger:
 - develop
