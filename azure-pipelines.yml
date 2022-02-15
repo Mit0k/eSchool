@@ -1,5 +1,11 @@
 variables:
- - group: VG-armtest
+  preffix: test 
+  location: eastus
+  
+  connection: Azure2
+  ResourceGroupName: rg-$prefix-$location
+  WebAppName: app-$prefix-$location
+  SlotName: production
  
 trigger:
 - develop
@@ -8,6 +14,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- bash: echo $WebAppName
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'Sonar'
