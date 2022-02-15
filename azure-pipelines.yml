@@ -1,5 +1,5 @@
 variables:
-  preffix: test 
+  prefix: test 
   location: eastus
   
   connection: Azure2
