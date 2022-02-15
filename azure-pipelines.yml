@@ -3,8 +3,6 @@ variables:
   location: eastus
   
   connection: Azure2
-  ResourceGroupName: rg-${{ prefix }}-$location
-  WebAppName: app-${{ prefix}} -$location
   SlotName: production
  
 trigger:
@@ -49,7 +47,6 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)/target/eschool.jar
-    artifact: 'app'
     publishLocation: 'pipeline'
 
 - task: AzureRmWebAppDeployment@4
@@ -57,10 +54,10 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure2'
     appType: 'webAppLinux'
-    WebAppName: '$(WebAppName)'
+    WebAppName: 'app-$(prefix)-$(location)'
     deployToSlotOrASE: true
-    ResourceGroupName: '$(ResourceGroupName)'
-    SlotName: 'production'
+    ResourceGroupName: 'rg-$(prefix)-$(location)'
+    SlotName: '$(slotName)'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
     AppSettings: '-DATASOURCE_PASSWORD $(DatabasePassword)'
