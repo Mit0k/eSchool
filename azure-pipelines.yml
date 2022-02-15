@@ -3,8 +3,8 @@ variables:
   location: eastus
   
   connection: Azure2
-  ResourceGroupName: rg-$prefix-$location
-  WebAppName: app-$prefix-$location
+  ResourceGroupName: rg-${{ prefix }}-$location
+  WebAppName: app-${{ prefix}} -$location
   SlotName: production
  
 trigger:
