@@ -52,7 +52,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure2'
+    azureSubscription: 'AzureNew'
     appType: 'webAppLinux'
     WebAppName: 'app-$(prefix)-$(location)'
     deployToSlotOrASE: true
