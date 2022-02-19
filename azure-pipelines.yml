@@ -1,5 +1,6 @@
 variables:
-  prefix: test 
+  rg: test
+  prefix: testcase
   location: eastus
   
   connection: Azure2
@@ -55,7 +56,7 @@ steps:
     appType: 'webAppLinux'
     WebAppName: 'app-$(prefix)-$(location)'
     deployToSlotOrASE: true
-    ResourceGroupName: 'rg-$(prefix)-$(location)'
+    ResourceGroupName: 'rg-$(rg)-$(location)'
     SlotName: '$(slotName)'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
