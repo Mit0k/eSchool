@@ -1,6 +1,6 @@
 variables:
-  rg: test
-  prefix: testcase
+  rg: spec
+  prefix: spec
   location: eastus
   
   connection: Azure2
