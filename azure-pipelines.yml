@@ -1,6 +1,6 @@
 variables:
-  rg: spec-APP
-  prefix: spec
+  rg: sysmo-APP
+  prefix: sysmo
   location: eastus
   
   connection: Azure2
