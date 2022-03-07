@@ -1,6 +1,6 @@
 variables:
-  rg: sysmo-APP
-  prefix: sysmo
+  rg: upser-APP
+  prefix: upser
   location: eastus
   
   connection: Azure2
