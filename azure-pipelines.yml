@@ -1,6 +1,5 @@
 variables:
-  rg: upser-APP
-  prefix: upser
+  prefix: crfinal
   location: eastus
   
   connection: Azure2
@@ -56,7 +55,7 @@ steps:
     appType: 'webAppLinux'
     WebAppName: 'app-$(prefix)-$(location)'
     deployToSlotOrASE: true
-    ResourceGroupName: 'rg-$(rg)-$(location)'
+    ResourceGroupName: 'rg-$(prefix)-APP-$(location)'
     SlotName: '$(slotName)'
     packageForLinux: '$(System.DefaultWorkingDirectory)/target/eschool.jar'
     RuntimeStack: 'JAVA|8-jre8'
