@@ -1,7 +1,7 @@
 # eSchool
 
 **eSchool** is a school management web application based on Spring Boot and developed as graduation project at SoftServe IT Academy. <br />
-Forked from [here](https://github.com/yurkovskiy/eSchool) during my DevOps internship for educational purposes. <br />
+Forked from [here](https://github.com/yurkovskiy/eSchool) during my DevOps internship (SoftServe IT Academy) for educational purposes. <br />
 The branch I worked on: `develop` <br />
 How to setup CI with Azure DevOps - read `DevOps.md` on `develop` branch <br />
 
