@@ -3,6 +3,7 @@ variables:
   location: eastus
   
   connection: Azure2
+  sonarConnection: Sonar
   SlotName: production
  
 trigger:
@@ -14,7 +15,7 @@ pool:
 steps:
 - task: SonarQubePrepare@5
   inputs:
-    SonarQube: 'Sonar'
+    SonarQube: '$(sonarConnection)'
     scannerMode: 'Other'
     extraProperties: sonar.projectKey=DevOps_Internship_DevOps_Internship
     
